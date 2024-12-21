@@ -27,10 +27,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2_176_pam.data.entity.Dosen
+import com.example.ucp2_176_pam.ui.custumwidget.CstTopAppBar
+import com.example.ucp2_176_pam.ui.navigation.AlamatNavigasi
+import com.example.ucp2_176_pam.ui.viewmodel.PenyediaViewModel
 import com.example.ucp2_176_pam.ui.viewmodel.dosen.DosenEvent
 import com.example.ucp2_176_pam.ui.viewmodel.dosen.DosenViewModel
+import com.example.ucp2_176_pam.ui.viewmodel.dosen.DsnUIState
 import com.example.ucp2_176_pam.ui.viewmodel.dosen.FormErrorState
 import kotlinx.coroutines.launch
+
+object DestinasiInsert : AlamatNavigasi {
+    override val route: String = "insert_dsn"
+}
 
 @Composable
 fun InserDsnView(
@@ -71,7 +79,7 @@ fun InserDsnView(
             InsertBodyMhs(
                 uiState = uiState,
                 onValueChange = { updateEvent ->
-                    viewModel.updateState(updateEvent) //update state di viewmodel
+                    viewModel.updateState(updateEvent)
                 },
                 onClick = {
                     coroutineScope.launch {
@@ -87,8 +95,8 @@ fun InserDsnView(
 @Composable
 fun InsertBodyMhs(
     modifier: Modifier = Modifier,
-    onValueChange: (MahasiswaEvent) -> Unit,
-    uiState: MhsUIState,
+    onValueChange: (DosenEvent) -> Unit,
+    uiState: DsnUIState,
     onClick: () -> Unit
 
 ) {
@@ -97,8 +105,8 @@ fun InsertBodyMhs(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        FormMahasiswa(
-            mahasiswaEvent = uiState.mahasiswaEvent,
+        FormDosen(
+            dosenEvent = uiState.dosenEvent,
             onValueChange = onValueChange,
             errorState = uiState.isEntryValid
         )
