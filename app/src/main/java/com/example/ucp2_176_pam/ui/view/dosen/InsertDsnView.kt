@@ -73,17 +73,17 @@ fun InserDsnView(
             CstTopAppBar(
                 onBack = onBack,
                 showBackButton = true,
-                judul = "Tambah Mahasiswa"
+                judul = "Tambah Dosen"
             )
             //Isi Body
-            InsertBodyMhs(
+            InsertBodyDsn(
                 uiState = uiState,
                 onValueChange = { updateEvent ->
                     viewModel.updateState(updateEvent)
                 },
                 onClick = {
                     coroutineScope.launch {
-                        viewModel.saveData() //simpan data
+                        viewModel.saveData()
                     }
                     onNavigate()
                 }
@@ -93,7 +93,7 @@ fun InserDsnView(
 }
 
 @Composable
-fun InsertBodyMhs(
+fun InsertBodyDsn(
     modifier: Modifier = Modifier,
     onValueChange: (DosenEvent) -> Unit,
     uiState: DsnUIState,
