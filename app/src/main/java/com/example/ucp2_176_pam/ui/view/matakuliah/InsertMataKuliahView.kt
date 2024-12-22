@@ -10,17 +10,47 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.ucp2_176_pam.ui.navigation.AlamatNavigasi
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.FormErrorState
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MKUIState
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MataKuliahEvent
+import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MataKuliahViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2_176_pam.ui.viewmodel.PenyediaViewModel
 
+object DestinasiInsert : AlamatNavigasi {
+    override val route: String = "insert_mk"
+}
+
+@Composable
+fun InsertMKView(
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: MataKuliahViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState()}
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            viewModel.resetSnackBarMessage()
+        }
+    }
+}
 
 @Composable
 fun InsertBodyMK(
@@ -96,6 +126,18 @@ fun FormMataKuliah(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Text(text = errorState.sks ?: "", color = Color.Red)
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mataKuliahEvent.semester, onValueChange = {
+                onValueChange(mataKuliahEvent.copy(sks = it))
+            },
+            label = { Text("Semester") },
+            isError = errorState.semester!= null,
+            placeholder = { Text("Masukkan Semester") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+        Text(text = errorState.semester ?: "", color = Color.Red)
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
