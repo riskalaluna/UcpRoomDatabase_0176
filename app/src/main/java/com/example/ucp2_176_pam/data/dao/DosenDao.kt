@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DosenDao {
     @Insert
-    suspend fun insertDosen(Dosen: Dosen)
+    suspend fun insertDosen(dosen: Dosen)
 
     //getAllDosen
     @Query("SELECT * FROM dosen ORDER BY nama ASC")
@@ -20,5 +20,4 @@ interface DosenDao {
     //getDosen
     @Query("SELECT * FROM dosen WHERE nidn = :nidn")
     fun getDosen(nidn: String): Flow<Dosen>
-
 }
