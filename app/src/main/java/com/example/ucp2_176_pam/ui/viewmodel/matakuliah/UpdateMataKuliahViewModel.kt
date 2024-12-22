@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp2_176_pam.data.entity.MataKuliah
 import com.example.ucp2_176_pam.repository.RepositoryMK
+import com.example.ucp2_176_pam.ui.navigation.DestinasiUpdate
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -38,7 +39,7 @@ class UpdateMataKuliahViewModel(
     }
 
     fun validateFields(): Boolean {
-        val event = updateUIState.matakuliahEvent
+        val event = updateUIState.mataKuliahEvent
         val errorState = FormErrorState(
             kode = if (event.kode.isNotEmpty()) null else "Kode tidak boleh kosong",
             nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
@@ -51,8 +52,37 @@ class UpdateMataKuliahViewModel(
         updateUIState = updateUIState.copy( isEntryValid = errorState)
         return errorState.isValid()
     }
+
+    fun updateData() {
+        val currentEvent = updateUIState.mataKuliahEvent
+
+        if (validateFields()) {
+            viewModelScope.launch {
+                try {
+                    repositoryMK.updateMK(currentEvent.toMataKuliahEntity())
+                    updateUIState = updateUIState.copy(
+                        snackBarMessage = "Data berhasil diupdate",
+                        mataKuliahEvent = MataKuliahEvent(),
+                        isEntryValid = FormErrorState()
+                    )
+                    println("snackbarMessage diatur: ${updateUIState.snackBarMessage}")
+                } catch (e: Exception) {
+                    updateUIState = updateUIState.copy(
+                        snackBarMessage = "Data gagal diupdate"
+                    )
+                }
+            }
+        } else {
+            updateUIState = updateUIState.copy(
+                snackBarMessage = "Data gagal diupdate"
+            )
+        }
+    }
+    fun resetSnackBarMessage() {
+        updateUIState = updateUIState.copy(snackBarMessage = null)
+    }
 }
 
 fun MataKuliah.toUIStateMK(): MKUIState = MKUIState(
-    matakuliahEvent = this.toDetailUiEvent(),
+    mataKuliahEvent = this.toDetailUiEvent(),
 )
