@@ -1,6 +1,5 @@
 package com.example.ucp2_176_pam.ui.custumwidget
 
-import android.widget.Button
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +25,7 @@ fun CstTopAppBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center // Pastikan konten di tengah
     ) {
         if (showBackButton) {
             Row(
@@ -43,6 +42,7 @@ fun CstTopAppBar(
             }
         }
 
+        // Teks judul
         Text(
             text = judul,
             fontSize = 25.sp,
