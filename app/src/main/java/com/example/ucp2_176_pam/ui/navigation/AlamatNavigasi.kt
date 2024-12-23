@@ -22,3 +22,4 @@ object DestinasiUpdate : AlamatNavigasi {
     const val KODE = "kode"
     val routesWithArg = "$route/{$KODE}"
 }
+
