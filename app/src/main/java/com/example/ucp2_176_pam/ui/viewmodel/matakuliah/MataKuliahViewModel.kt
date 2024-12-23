@@ -20,6 +20,7 @@ class MataKuliahViewModel(
     var uiStateMataKuliah by mutableStateOf(MKUIState())
         private set
 
+    //Menambahkan variable UI state untuk Dosen
     var dosenList by mutableStateOf<List<Dosen>>(emptyList())
         private set
 
