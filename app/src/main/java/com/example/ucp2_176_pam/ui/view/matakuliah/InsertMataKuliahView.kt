@@ -12,12 +12,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -32,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.ucp2_176_pam.ui.navigation.AlamatNavigasi
@@ -41,6 +45,7 @@ import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MataKuliahEvent
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MataKuliahViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2_176_pam.data.entity.Dosen
+import com.example.ucp2_176_pam.data.entity.MataKuliah
 import com.example.ucp2_176_pam.ui.custumwidget.CstTopAppBar
 import com.example.ucp2_176_pam.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.Dispatchers
@@ -85,6 +90,7 @@ fun InsertMKView(
                 .padding(16.dp)
         ) {
             CstTopAppBar(
+                showBackButton = true,
 
                 judul = "Tambah Mata Kuliah",
                 onBack = onBack
@@ -133,7 +139,10 @@ fun InsertBodyMK(
         )
         Button(
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
+            colors = ButtonDefaults.buttonColors(Color(0xFF2196F3))
         ) {
             Text("Simpan")
         }
@@ -149,6 +158,8 @@ fun FormMataKuliah(
     modifier: Modifier = Modifier,
     dosenList: List<Dosen>,
 ) {
+    val jenis = listOf("MK Wajib", "MK Peminatan")
+
     var chosenDropdown by remember { mutableStateOf(mataKuliahEvent.dosenPengampu) }
     var expanded by remember { mutableStateOf(false) }
 
@@ -165,7 +176,7 @@ fun FormMataKuliah(
             },
             label = { Text("Nama") },
             isError = errorState.nama != null,
-            placeholder = { Text("Masukkan nama") },
+            placeholder = { Text("Masukkan nama") }
         )
         Text(text = errorState.nama ?: "", color = Color.Red)
 
@@ -196,24 +207,41 @@ fun FormMataKuliah(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = mataKuliahEvent.semester, onValueChange = {
-                onValueChange(mataKuliahEvent.copy(semester = it))
+                onValueChange(mataKuliahEvent.copy(sks = it))
             },
             label = { Text("Semester") },
-            isError = errorState.semester!= null,
+            isError = errorState.semester != null,
             placeholder = { Text("Masukkan Semester") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Text(text = errorState.semester ?: "", color = Color.Red)
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = mataKuliahEvent.jenis, onValueChange = {
-                onValueChange(mataKuliahEvent.copy(jenis = it))
-            },
-            label = { Text("Jenis") },
-            isError = errorState.jenis != null,
-            placeholder = { Text("Masukkan Jenis") },
-        )
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = "Jenis MataKuliah", color = Color(0xFF1976D2), fontWeight = FontWeight.Bold)
+        Row (
+            modifier = Modifier.fillMaxWidth()
+        ){
+            jenis.forEach { jn ->
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    RadioButton(
+                        selected = mataKuliahEvent.jenis == jn,
+                        onClick = {
+                            onValueChange(mataKuliahEvent.copy(jenis = jn))
+                        },
+                        colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF42A5F5))
+                    )
+                    Text(
+                        text = jn,
+                        color = Color(0xFF1976D2)
+                    )
+                }
+            }
+        }
         Text(text = errorState.jenis ?: "", color = Color.Red)
 
         ExposedDropdownMenuBox(
