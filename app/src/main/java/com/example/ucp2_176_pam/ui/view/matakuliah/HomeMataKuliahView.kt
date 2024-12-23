@@ -73,7 +73,7 @@ fun HomeMataKuliahView(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Tambah Mata Kuliah",
+                    contentDescription = "Tambah Dosen",
                     tint = Color.White
                 )
             }
