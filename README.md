@@ -9,7 +9,7 @@
 ![image](https://github.com/user-attachments/assets/5b8937f0-5c00-4819-b553-0d03df6bf79d)
 
 //Data Berhasil ditambahkan
-![image](https://github.com/user-attachments/assets/4f81d74b-53fa-4090-b3e2-0842e5744fbd)
+![image](https://github.com/user-attachments/assets/50264fdc-ce94-47a6-93de-fb219322f7ae)
 
 //MataKuliah
 //Halaman Home MataKuliah
