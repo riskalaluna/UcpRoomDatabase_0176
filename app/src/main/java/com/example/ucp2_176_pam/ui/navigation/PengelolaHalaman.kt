@@ -2,6 +2,7 @@ package com.example.ucp2_176_pam.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,10 +10,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.ucp2_176_pam.ui.view.dosen.DestinasiInsert
-import com.example.ucp2_176_pam.ui.view.dosen.DetailDsnView
+import com.example.ucp2_176_pam.ui.view.DestinasiHome
+import com.example.ucp2_176_pam.ui.view.HomeUtamaView
+import com.example.ucp2_176_pam.ui.view.dosen.DestinasiInsertDsn
 import com.example.ucp2_176_pam.ui.view.dosen.HomeDsnView
-import com.example.ucp2_176_pam.ui.view.dosen.InserDsnView
+import com.example.ucp2_176_pam.ui.view.dosen.InsertDsnView
+import com.example.ucp2_176_pam.ui.view.matakuliah.DestinasiInsertMK
+import com.example.ucp2_176_pam.ui.view.matakuliah.DetailMataKuliahView
+import com.example.ucp2_176_pam.ui.view.matakuliah.HomeMataKuliahView
+import com.example.ucp2_176_pam.ui.view.matakuliah.InsertMKView
+import com.example.ucp2_176_pam.ui.view.matakuliah.UpdateMataKuliahView
 import com.example.ucp2_176_pam.ui.viewmodel.dosen.HomeDsnViewModel
 
 @Composable
@@ -24,24 +31,34 @@ fun PengelolaHalaman(
         composable(
             route = DestinasiHome.route
         ) {
-            HomeDsnView(
-                onDetailClick = { nidn ->
-                    navController.navigate("${DestinasiDetail.route}/$nidn")
-                    println(
-                        "PengelolaHalaman: nidn = $nidn"
-                    )
+            HomeUtamaView(
+                onDosen = {
+                    navController.navigate(DestinasiHomeDsn.route)
                 },
+                onMataKuliah = {
+                    navController.navigate(DestinasiHomeMataKuliah.route)
+                },
+            )
+        }
+
+        composable(
+            route = DestinasiHomeDsn.route
+        ) {
+            HomeDsnView(
                 onAddDsn = {
-                    navController.navigate(DestinasiInsert.route)
+                    navController.navigate(DestinasiInsertDsn.route)
+                },
+                onBack = {
+                    navController.popBackStack()
                 },
                 modifier = modifier
             )
         }
 
         composable(
-            route = DestinasiInsert.route
+            route = DestinasiInsertDsn.route
         ) {
-            InserDsnView(
+            InsertDsnView(
                 onBack = {
                     navController.popBackStack()
                 },
@@ -53,22 +70,82 @@ fun PengelolaHalaman(
         }
 
         composable(
+            route = DestinasiHomeMataKuliah.route
+        ) {
+            HomeMataKuliahView(
+                onDetailClick = { kode ->
+                    navController.navigate("${DestinasiDetail.route}/$kode")
+                    println(
+                        "PengelolaHalaman: kode = $kode"
+                    )
+                },
+                onAddMK = {
+                    navController.navigate(DestinasiInsertMK.route)
+                },
+                onBack = {
+                    navController.popBackStack()
+                },
+                modifier = modifier
+            )
+        }
+
+        composable(
+            route = DestinasiInsertMK.route
+        ) {
+            InsertMKView(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onNavigate = {
+                    navController.popBackStack()
+                },
+                modifier = modifier
+            )
+        }
+
+        composable(
             DestinasiDetail.routesWithArg,
             arguments = listOf(
-                navArgument(DestinasiDetail.NIDN) {
+                navArgument(DestinasiDetail.KODE) {
                     type = NavType.StringType
                 }
             )
         ) {
-            val nidn = it.arguments?.getString(DestinasiDetail.NIDN)
+            val kode = it.arguments?.getString(DestinasiDetail.KODE)
 
-            nidn?.let { nidn ->
-                DetailDsnView(
+            kode?.let { kode ->
+                DetailMataKuliahView(
                     onBack = {
+                        navController.popBackStack()
+                    },
+                    onEditClick = {
+                        navController.navigate("${DestinasiUpdate.route}/$it")
+                    },
+                    modifier = modifier,
+                    onDeleteClick = {
                         navController.popBackStack()
                     }
                 )
             }
+        }
+
+        composable(
+            DestinasiUpdate.routesWithArg,
+            arguments = listOf(
+                navArgument(DestinasiUpdate.KODE) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+
+            UpdateMataKuliahView(
+                onBack = {
+                    navController.popBackStack()
+                }, onNavigate = {
+                    navController.popBackStack()
+                },
+                modifier = modifier
+            )
         }
     }
 }
