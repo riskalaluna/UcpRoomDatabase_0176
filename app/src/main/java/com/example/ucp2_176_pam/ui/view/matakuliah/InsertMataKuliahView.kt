@@ -4,18 +4,31 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,9 +40,16 @@ import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MKUIState
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MataKuliahEvent
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MataKuliahViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2_176_pam.data.entity.Dosen
+import com.example.ucp2_176_pam.ui.custumwidget.CstTopAppBar
 import com.example.ucp2_176_pam.ui.viewmodel.PenyediaViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.math.truncate
 
-object DestinasiInsert : AlamatNavigasi {
+object DestinasiInsertMK : AlamatNavigasi {
     override val route: String = "insert_mk"
 }
 
@@ -40,14 +60,52 @@ fun InsertMKView(
     modifier: Modifier = Modifier,
     viewModel: MataKuliahViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
-    val uiState = viewModel.uiState
+    val uiStateMataKuliah = viewModel.uiStateMataKuliah
     val snackbarHostState = remember { SnackbarHostState()}
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(uiState.snackBarMessage) {
-        uiState.snackBarMessage?.let { message ->
-            snackbarHostState.showSnackbar(message)
-            viewModel.resetSnackBarMessage()
+    LaunchedEffect(uiStateMataKuliah.snackBarMessage) {
+        uiStateMataKuliah.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold (
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+
+    ){ padding ->
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            CstTopAppBar(
+
+                judul = "Tambah Mata Kuliah",
+                onBack = onBack
+            )
+            InsertBodyMK(
+                uiState = uiStateMataKuliah,
+                dosenList = uiStateMataKuliah.dosenList,
+                onValueChange = { updateEvent -> viewModel.updateStateMataKuliah(updateEvent) },
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.saveData()
+                        if (viewModel.validataFields()) {
+                            viewModel.saveData()
+                            delay(500)
+                            withContext(Dispatchers.Main) {
+                                onNavigate()
+                            }
+                        }
+                    }
+                },
+            )
         }
     }
 }
@@ -57,6 +115,7 @@ fun InsertBodyMK(
     modifier: Modifier = Modifier,
     onValueChange: (MataKuliahEvent) -> Unit,
     uiState: MKUIState,
+    dosenList: List<Dosen>,
     onClick: () -> Unit
 
 ) {
@@ -66,9 +125,11 @@ fun InsertBodyMK(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         FormMataKuliah(
-            mataKuliahEvent = uiState.matakuliahEvent,
+            mataKuliahEvent = uiState.mataKuliahEvent,
             onValueChange = onValueChange,
-            errorState = uiState.isEntryValid
+            errorState = uiState.isEntryValid,
+            modifier = Modifier.fillMaxWidth(),
+            dosenList = dosenList
         )
         Button(
             onClick = onClick,
@@ -79,13 +140,18 @@ fun InsertBodyMK(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormMataKuliah(
     mataKuliahEvent: MataKuliahEvent = MataKuliahEvent(),
     onValueChange: (MataKuliahEvent) -> Unit,
     errorState: FormErrorState = FormErrorState(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    dosenList: List<Dosen>,
 ) {
+    var chosenDropdown by remember { mutableStateOf(mataKuliahEvent.dosenPengampu) }
+    var expanded by remember { mutableStateOf(false) }
+
 
     Column (
         modifier = modifier.fillMaxWidth()
@@ -130,7 +196,7 @@ fun FormMataKuliah(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = mataKuliahEvent.semester, onValueChange = {
-                onValueChange(mataKuliahEvent.copy(sks = it))
+                onValueChange(mataKuliahEvent.copy(semester = it))
             },
             label = { Text("Semester") },
             isError = errorState.semester!= null,
@@ -150,15 +216,42 @@ fun FormMataKuliah(
         )
         Text(text = errorState.jenis ?: "", color = Color.Red)
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = mataKuliahEvent.dosenPengampu, onValueChange = {
-                onValueChange(mataKuliahEvent.copy(dosenPengampu = it))
-            },
-            label = { Text("DosenPengampu") },
-            isError = errorState.dosenPengampu != null,
-            placeholder = { Text("Masukkan Dosen Pengampu") },
-        )
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = {expanded = !expanded}
+        ) {
+            OutlinedTextField(
+                value = chosenDropdown,
+                onValueChange = { },
+                label = { Text("Pilih Dosen Pengampu")},
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Expand Menu"
+                    )
+                },
+                modifier = Modifier.menuAnchor().fillMaxWidth(),
+                readOnly = true,
+                isError = errorState.dosenPengampu != null
+            )
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                dosenList.forEach { dosen ->
+                    DropdownMenuItem(
+                        onClick = {
+                            chosenDropdown = dosen.nama
+                            expanded = false
+                            onValueChange(mataKuliahEvent.copy(dosenPengampu = dosen.nama))
+                        },
+                        text = { Text(text = dosen.nama) },
+
+                        )
+                }
+            }
+        }
         Text(text = errorState.dosenPengampu ?: "", color = Color.Red)
+
     }
 }
