@@ -29,14 +29,14 @@ fun UpdateMataKuliahView(
     modifier: Modifier = Modifier,
     viewModel: UpdateMataKuliahViewModel = viewModel(factory = PenyediaViewModel.Factory) //Inisialisasi ViewModel
 ) {
-    val uiState = viewModel.updateUIState
+    val uiStateMataKuliah = viewModel.updateUIState
     val snackbarHostState = remember { SnackbarHostState() } //snackbar state
     val coroutineScope = rememberCoroutineScope()
 
     //obeservasi perubahan snackbarMessage
-    LaunchedEffect(uiState.snackBarMessage) {
+    LaunchedEffect(uiStateMataKuliah.snackBarMessage) {
         println("LaunchedEffect triggered")
-        uiState.snackBarMessage?.let { message ->
+        uiStateMataKuliah.snackBarMessage?.let { message ->
             println("Snackbar message received: $message")
             coroutineScope.launch {
                 println("Launching coroutine for snackbar")
@@ -69,9 +69,8 @@ fun UpdateMataKuliahView(
         ){
 
             InsertBodyMK(
-                uiState = uiState,
-                onValueChange = { updatedEvent ->
-                    viewModel.updateState(updatedEvent) //update state di viewmodel
+                uiState = uiStateMataKuliah,
+                onValueChange = { updatedEvent -> viewModel.updateState(updatedEvent) //update state di viewmodel
                 },
                 onClick = {
                     coroutineScope.launch {
@@ -83,7 +82,8 @@ fun UpdateMataKuliahView(
                             }
                         }
                     }
-                }
+                },
+                dosenList = uiStateMataKuliah.dosenList
             )
         }
     }
