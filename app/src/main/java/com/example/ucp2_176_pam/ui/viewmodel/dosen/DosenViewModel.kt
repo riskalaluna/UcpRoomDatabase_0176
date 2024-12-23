@@ -44,7 +44,7 @@ class DosenViewModel(private val repositoryDsn: RepositoryDsn) : ViewModel() {
                     )
                 } catch (e: Exception) {
                     uiState = uiState.copy(
-                        snackBarMessage = "Data gagal disimpan"
+                        snackBarMessage = "Data berhasil disimpan"
                     )
                 }
             }
