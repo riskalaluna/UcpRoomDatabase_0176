@@ -47,15 +47,15 @@ import kotlinx.coroutines.launch
 fun HomeDsnView(
     viewModel: HomeDsnViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onAddDsn: () -> Unit = { },
-    onDetailClick: (String) -> Unit = { },
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit = { },
 ) {
     Scaffold (
         topBar = {
             CstTopAppBar(
                 judul = "Daftar Dosen",
-                showBackButton = false,
-                onBack = { },
+                showBackButton = true,
+                onBack = onBack,
                 modifier = modifier
             )
         },
@@ -77,9 +77,6 @@ fun HomeDsnView(
 
         BodyHomeDsnView(
             homeUiState = homeUiState,
-            onClick = {
-                onDetailClick(it)
-            },
             modifier = Modifier.padding((innerPadding))
         )
     }
