@@ -25,13 +25,66 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ucp2_176_pam.data.entity.MataKuliah
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2_176_pam.ui.custumwidget.CstTopAppBar
+import com.example.ucp2_176_pam.ui.viewmodel.PenyediaViewModel
+import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.HomeMataKuliahViewModel
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.HomeUiState
 import kotlinx.coroutines.launch
+
+@Composable
+fun HomeMataKuliahView(
+    viewModel: HomeMataKuliahViewModel= viewModel(factory = PenyediaViewModel.Factory),
+    onAddMK: () -> Unit = { },
+    onDetailClick: (String) -> Unit = { },
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit = { },
+) {
+    Scaffold (
+        topBar = {
+            CstTopAppBar(
+                judul = "Daftar Mata Kuliah",
+                showBackButton = true,
+                onBack = onBack,
+                modifier = modifier
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddMK,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Tambah Mata Kuliah",
+                )
+
+            }
+        }
+    )  { innerPadding ->
+        val homeUiState by viewModel.homeUiState.collectAsState()
+
+        BodyHomeMKView(
+            homeUiState = homeUiState,
+            onClick = {
+                onDetailClick(it)
+            },
+            modifier = Modifier.padding((innerPadding))
+        )
+    }
+}
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -70,7 +123,7 @@ fun BodyHomeMKView(
                 contentAlignment = Alignment.Center
             ){
                 Text(
-                    text = "Tidak ada data mahasiswa.",
+                    text = "Tidak ada data Mata Kuliah.",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(16.dp)
@@ -119,19 +172,19 @@ fun CardMK(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { }
 ) {
-    Card (
+    Card(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
-    ){
-        Column (
+    ) {
+        Column(
             modifier = Modifier.padding(8.dp)
-        ){
-            Row (
+        ) {
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.Person, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
@@ -141,10 +194,10 @@ fun CardMK(
                 )
             }
 
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
@@ -154,10 +207,10 @@ fun CardMK(
                 )
             }
 
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
@@ -167,3 +220,4 @@ fun CardMK(
             }
         }
     }
+}
