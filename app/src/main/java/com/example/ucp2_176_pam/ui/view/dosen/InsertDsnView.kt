@@ -47,6 +47,7 @@ object DestinasiInsertDsn : AlamatNavigasi {
     override val route: String = "insert_dsn"
 }
 
+//fungsi utama yang mengelola tampilan halaman untuk menambahkan data dosen baru.
 @Composable
 fun InsertDsnView(
     onBack: () -> Unit,
@@ -99,6 +100,7 @@ fun InsertDsnView(
     }
 }
 
+//Menampilkan bagian body dari halaman insert dosen berisi form input dan tombol menyimpan data.
 @Composable
 fun InsertBodyDsn(
     modifier: Modifier = Modifier,
@@ -127,6 +129,7 @@ fun InsertBodyDsn(
     }
 }
 
+//untuk memasukkan data dosen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormDosen(

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
+///bertanggung jawab untuk mengelola data matkul dan memberikan state yang relevan untuk tampilan
 class HomeMataKuliahViewModel (
     private val repositoryMK: RepositoryMK
 ) : ViewModel() {
@@ -47,6 +48,7 @@ class HomeMataKuliahViewModel (
         )
 }
 
+////berisi data dan status UI
 data class HomeUiState(
     val listMK: List<MataKuliah> = listOf(),
     val isLoading: Boolean = false,

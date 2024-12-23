@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+//mengelola data mata kuliah, menangani perubahan state untuk tampilan (UI),
+// dan menyediakan metode untuk menghapus data mata kuliah dari database.
 class DetailMataKuliahViewModel(
     savedStateHandle: SavedStateHandle,
     private val repositoryMK: RepositoryMK,
@@ -60,6 +62,7 @@ class DetailMataKuliahViewModel(
     }
 }
 
+//Menyimpan status terkait data mata kuliah dan UI
 data class DetailUiState(
     val detailUiEvent: MataKuliahEvent = MataKuliahEvent(),
     val isLoading: Boolean = false,
@@ -73,6 +76,7 @@ data class DetailUiState(
         get() = detailUiEvent != MataKuliahEvent()
 }
 
+//Fungsi ini mengubah objek MataKuliah menjadi MataKuliahEvent untuk digunakan di UI
 fun MataKuliah.toDetailUiEvent(): MataKuliahEvent {
     return MataKuliahEvent(
         kode = kode,

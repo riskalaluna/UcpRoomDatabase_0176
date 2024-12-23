@@ -1,5 +1,7 @@
 package com.example.ucp2_176_pam.ui.navigation
 
+//digunakan untuk navigasi antar halaman dalam aplikasi
+//Setiap destinasi memiliki route yang digunakan untuk berpindah ke layar tertentu
 interface AlamatNavigasi {
     val route: String
 }

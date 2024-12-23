@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+//digunakan untuk memperbarui atau mengedit data mata kuliah
 class UpdateMataKuliahViewModel(
     savedStateHandle: SavedStateHandle,
     private val repositoryMK: RepositoryMK,

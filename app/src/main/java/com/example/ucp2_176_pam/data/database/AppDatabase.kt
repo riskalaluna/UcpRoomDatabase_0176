@@ -9,6 +9,7 @@ import com.example.ucp2_176_pam.data.dao.MataKuliahDao
 import com.example.ucp2_176_pam.data.entity.Dosen
 import com.example.ucp2_176_pam.data.entity.MataKuliah
 
+//database utama yang bertanggung jawab menyediakan akses ke DAO dan menyimpan data
 @Database(entities = [Dosen::class, MataKuliah::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 

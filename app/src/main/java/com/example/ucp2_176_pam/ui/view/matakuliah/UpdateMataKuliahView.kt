@@ -22,6 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+//fungsi untuk meng edit data yang ada
 @Composable
 fun UpdateMataKuliahView(
     onBack: () -> Unit,

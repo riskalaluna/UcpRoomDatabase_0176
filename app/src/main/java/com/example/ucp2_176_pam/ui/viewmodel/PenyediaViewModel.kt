@@ -14,6 +14,7 @@ import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.HomeMataKuliahViewModel
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.MataKuliahViewModel
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.UpdateMataKuliahViewModel
 
+//membuat dan menyimpan seluruh viewmodel
 object PenyediaViewModel{
 
     val Factory = viewModelFactory {

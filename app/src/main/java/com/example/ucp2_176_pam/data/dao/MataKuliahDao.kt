@@ -8,6 +8,8 @@ import androidx.room.Update
 import com.example.ucp2_176_pam.data.entity.MataKuliah
 import kotlinx.coroutines.flow.Flow
 
+////DAO menyediakan metode utama untuk mengelola data di tabel matakuliah
+//menambah, mengambil semua data, mengambil data berdasarkan kode, mengedit data dan menghapus data
 @Dao
 interface MataKuliahDao {
     @Insert

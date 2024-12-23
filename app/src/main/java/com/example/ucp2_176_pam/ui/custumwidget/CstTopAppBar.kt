@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+//Fungsi CstTopAppBar mendefinisikan sebuah app bar kustom
+//melibatkan tombol kembali (back button) dan judul (title)
 @Composable
 fun CstTopAppBar(
     onBack: () -> Unit,

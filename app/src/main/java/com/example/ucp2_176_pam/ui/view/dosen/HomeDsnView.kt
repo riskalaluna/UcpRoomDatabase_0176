@@ -31,6 +31,7 @@ import com.example.ucp2_176_pam.ui.viewmodel.dosen.HomeDsnViewModel
 import com.example.ucp2_176_pam.ui.viewmodel.dosen.HomeUiState
 import kotlinx.coroutines.launch
 
+//enampilkan halaman daftar dosen enggunakan Scaffold untuk menyediakan struktur dasar halaman
 @Composable
 fun HomeDsnView(
     viewModel: HomeDsnViewModel = viewModel(factory = PenyediaViewModel.Factory),
@@ -74,6 +75,7 @@ fun HomeDsnView(
     }
 }
 
+//untuk headeer pada halaman daftar dosen
 @Composable
 fun HeaderSection() {
     Column(
@@ -99,6 +101,7 @@ fun HeaderSection() {
     }
 }
 
+//Menampilkan isi utama halaman yang menampilkan daftar dosen
 @SuppressLint("RememberReturnType")
 @Composable
 fun BodyHomeDsnView(
@@ -154,6 +157,7 @@ fun BodyHomeDsnView(
     }
 }
 
+//Menampilkan daftar dosen dalam bentuk list menggunakan LazyColumn
 @Composable
 fun ListDosen(
     listDsn: List<Dosen>,
@@ -175,6 +179,7 @@ fun ListDosen(
     }
 }
 
+//Menampilkan setiap item dosen dalam bentuk kartu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardDsn(

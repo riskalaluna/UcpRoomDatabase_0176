@@ -58,6 +58,7 @@ object DestinasiInsertMK : AlamatNavigasi {
     override val route: String = "insert_mk"
 }
 
+//Fungsi ini adalah tampilan utama dari halaman "Tambah Mata Kuliah"
 @Composable
 fun InsertMKView(
     onBack: () -> Unit,
@@ -116,6 +117,7 @@ fun InsertMKView(
     }
 }
 
+//berfungsi untuk menyusun form input mata kuliah.
 @Composable
 fun InsertBodyMK(
     modifier: Modifier = Modifier,
@@ -149,6 +151,7 @@ fun InsertBodyMK(
     }
 }
 
+//Fungsi ini berisi form input untuk data mata kuliah
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormMataKuliah(

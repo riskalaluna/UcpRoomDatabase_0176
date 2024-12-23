@@ -7,6 +7,8 @@ import com.example.ucp2_176_pam.repository.LocalRepositoryMK
 import com.example.ucp2_176_pam.repository.RepositoryDsn
 import com.example.ucp2_176_pam.repository.RepositoryMK
 
+//menyediakan akses ke repository
+//terdiri dari 2 repository yang digunakan untuk mengakses dan mengelola data terkait
 interface InterfaceContainerApp {
     val repositoryDsn: RepositoryDsn
     val repositoryMK: RepositoryMK

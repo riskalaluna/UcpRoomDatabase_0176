@@ -47,6 +47,7 @@ import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.HomeMataKuliahViewModel
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.HomeUiState
 import kotlinx.coroutines.launch
 
+//tampilan utama untuk menampilkan daftar mata kuliah yang tersedia
 @Composable
 fun HomeMataKuliahView(
     viewModel: HomeMataKuliahViewModel = viewModel(factory = PenyediaViewModel.Factory),
@@ -99,6 +100,7 @@ fun HomeMataKuliahView(
     }
 }
 
+//menampilkan judul dan deskripsi halaman di bagian atas layar
 @Composable
 fun HeaderSection() {
     Column(
@@ -124,6 +126,8 @@ fun HeaderSection() {
     }
 }
 
+//Menampilkan konten utama halaman, yang terdiri dari daftar mata kuliah
+// atau status tertentu (loading, error, atau kosong)
 @SuppressLint("RememberReturnType")
 @Composable
 fun BodyHomeMKView(
@@ -183,6 +187,7 @@ fun BodyHomeMKView(
     }
 }
 
+//Menampilkan daftar mata kuliah menggunakan LazyColumn
 @Composable
 fun ListMataKuliah(
     listMK: List<MataKuliah>,
@@ -204,6 +209,7 @@ fun ListMataKuliah(
     }
 }
 
+//Menampilkan mata kuliah dalam bentuk kartu (Card)
 @OptIn (ExperimentalMaterial3Api::class)
 @Composable
 fun CardMK(

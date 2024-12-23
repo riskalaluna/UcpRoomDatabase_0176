@@ -41,6 +41,8 @@ import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.DetailMataKuliahViewMode
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.DetailUiState
 import com.example.ucp2_176_pam.ui.viewmodel.matakuliah.toMataKuliahEntity
 
+//tampilan utama untuk menampilkan detail mata kuliah
+//Menyediakan antarmuka untuk melihat detail mata kuliah, serta tombol untuk mengedit atau menghapus data.
 @Composable
 fun DetailMataKuliahView (
     modifier: Modifier = Modifier,
@@ -86,6 +88,7 @@ fun DetailMataKuliahView (
     }
 }
 
+//Menampilkan detail mata kuliah, serta menyediakan opsi untuk menghapus mata kuliah dengan konfirmasi.
 @Composable
 fun BodyDetailMK(
     modifier: Modifier = Modifier,
@@ -153,6 +156,7 @@ fun BodyDetailMK(
     }
 }
 
+//Menampilkan detail informasi tentang mata kuliah dalam format yang terstruktur, menggunakan Card
 @Composable
 fun ItemDetailMK (
     modifier: Modifier = Modifier,
@@ -190,6 +194,7 @@ fun ItemDetailMK (
     }
 }
 
+//menampilkan informasi detail tertentu dari mata kuliah
 @Composable
 fun ComponentDetailMK (
     modifier: Modifier = Modifier,
@@ -214,6 +219,7 @@ fun ComponentDetailMK (
     }
 }
 
+//Dialog yang muncul untuk meminta konfirmasi dari pengguna sebelum menghapus data mata kuliah.
 @Composable
 private fun DeleteConfirmationDialog(
     onDeleteConfirm: () -> Unit, onDeleteCancle: () -> Unit,

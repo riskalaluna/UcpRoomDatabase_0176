@@ -9,6 +9,8 @@ import com.example.ucp2_176_pam.data.entity.Dosen
 import com.example.ucp2_176_pam.repository.RepositoryDsn
 import kotlinx.coroutines.launch
 
+//mengelola state yang berkaitan dengan data dosen
+// serta memastikan validitas input sebelum menyimpan data dosen.
 class DosenViewModel(private val repositoryDsn: RepositoryDsn) : ViewModel() {
 
     var uiState by mutableStateOf(DsnUIState())
@@ -60,13 +62,14 @@ class DosenViewModel(private val repositoryDsn: RepositoryDsn) : ViewModel() {
     }
 }
 
-
+//Menyimpan state terkait dengan event dosen, status validasi, dan pesan snackbar
 data class DsnUIState(
     val dosenEvent: DosenEvent = DosenEvent(),
     val isEntryValid: FormErrorState = FormErrorState(),
     val snackBarMessage: String? = null,
 )
 
+//Menyimpan error state untuk setiap field
 data class FormErrorState(
     val nidn: String? = null,
     val nama: String? = null,
@@ -78,12 +81,14 @@ data class FormErrorState(
 
 }
 
+//data class yang berisi informasi tentang dosen yang diinput
 data class DosenEvent (
     val nidn: String = "",
     val nama: String = "",
     val jenisKelamin: String = ""
 )
 
+//kstensi function untuk mengubah DosenEvent menjadi entitas Dosen
 fun DosenEvent.toDosenEntity(): Dosen = Dosen(
     nidn = nidn,
     nama = nama,

@@ -11,6 +11,7 @@ import com.example.ucp2_176_pam.repository.RepositoryDsn
 import com.example.ucp2_176_pam.repository.RepositoryMK
 import kotlinx.coroutines.launch
 
+//mengelola state yang berkaitan dengan data matkul
 class MataKuliahViewModel(
     private val repositoryMK: RepositoryMK,
     private val repositoryDsn: RepositoryDsn

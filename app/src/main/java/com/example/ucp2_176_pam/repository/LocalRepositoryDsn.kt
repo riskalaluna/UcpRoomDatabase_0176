@@ -4,6 +4,9 @@ import com.example.ucp2_176_pam.data.dao.DosenDao
 import com.example.ucp2_176_pam.data.entity.Dosen
 import kotlinx.coroutines.flow.Flow
 
+//merupakan implementasi dari RepositoryDsn yang mengelola data dosen
+//Repository ini menggunakan DosenDao untuk berinteraksi dengan database dan menyediakan data
+//melakukan operasi CRUD (dibagian dosen hanya menambah dan mengambil data)
 class LocalRepositoryDsn (
     private val dosenDao: DosenDao
 ) : RepositoryDsn {

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
+//bertanggung jawab untuk mengelola data dosen dan memberikan state yang relevan untuk tampilan
 class HomeDsnViewModel (
     private val repositoryDsn: RepositoryDsn
 ) : ViewModel() {
@@ -47,6 +48,7 @@ class HomeDsnViewModel (
         )
 }
 
+//berisi data dan status UI
 data class HomeUiState(
     val listDsn: List<Dosen> = listOf(),
     val isLoading: Boolean = false,

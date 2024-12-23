@@ -31,6 +31,9 @@ import com.example.ucp2_176_pam.ui.navigation.AlamatNavigasi
 object DestinasiHome : AlamatNavigasi {
     override val route = "home"
 }
+
+//menampilkan tampilan utama saat di run
+//menampilkan 2 button, Dosen dan MataKuliah
 @Composable
 fun HomeUtamaView(
     onMataKuliah: () -> Unit,

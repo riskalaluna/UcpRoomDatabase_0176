@@ -22,6 +22,7 @@ import com.example.ucp2_176_pam.ui.view.matakuliah.InsertMKView
 import com.example.ucp2_176_pam.ui.view.matakuliah.UpdateMataKuliahView
 import com.example.ucp2_176_pam.ui.viewmodel.dosen.HomeDsnViewModel
 
+//mengatur alur navigasi antar halaman dalam aplikasi menggunakan NavController
 @Composable
 fun PengelolaHalaman(
     navController: NavHostController = rememberNavController(),
