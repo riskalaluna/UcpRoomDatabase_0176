@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,9 +41,7 @@ fun HomeUtamaView(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = colorResource(
-                    id = R.color.purple_200
-                )
+                color = Color(0xFF2196F3)  // Ganti dengan warna biru kustom
             ),
         horizontalAlignment = Alignment.CenterHorizontally
 
@@ -96,10 +97,16 @@ fun HomeUtamaView(
                 Text(
                     text = "Teknologi Informasi",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 19.sp
+                    color = Color.Blue,
+                    fontSize = 22.sp
+                )
+                Spacer(
+                    modifier = Modifier
+                        .padding(5.dp)
                 )
                 Text(
                     text = "Menjadi Program Studi Unggul dan Islami",
+                    color = Color.Black,
                     fontWeight = FontWeight.Light
                 )
                 Spacer(
@@ -108,18 +115,26 @@ fun HomeUtamaView(
                 )
                 Button(
                     onClick = {
-                        onMataKuliah()
-                    }
+                        onDosen()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFF2196F3))
                 ) {
-                    Text(text = "MataKuliah")
+                    Text(text = "Dosen")
                 }
                 Spacer(modifier = Modifier.padding(16.dp))
                 Button(
                     onClick = {
-                        onDosen()
-                    }
+                        onMataKuliah()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFF2196F3))
                 ) {
-                    Text(text = "Dosen")
+                    Text(text = "MataKuliah")
                 }
             }
         }
