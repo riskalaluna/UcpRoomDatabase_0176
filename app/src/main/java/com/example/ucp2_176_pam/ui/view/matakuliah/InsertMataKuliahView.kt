@@ -207,7 +207,7 @@ fun FormMataKuliah(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = mataKuliahEvent.semester, onValueChange = {
-                onValueChange(mataKuliahEvent.copy(sks = it))
+                onValueChange(mataKuliahEvent.copy(semester = it))
             },
             label = { Text("Semester") },
             isError = errorState.semester != null,
