@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.ucp2_176_pam.data.entity.MataKuliah
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +38,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucp2_176_pam.ui.custumwidget.CstTopAppBar
 import com.example.ucp2_176_pam.ui.viewmodel.PenyediaViewModel
@@ -45,16 +49,16 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeMataKuliahView(
-    viewModel: HomeMataKuliahViewModel= viewModel(factory = PenyediaViewModel.Factory),
+    viewModel: HomeMataKuliahViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onAddMK: () -> Unit = { },
     onDetailClick: (String) -> Unit = { },
     modifier: Modifier = Modifier,
     onBack: () -> Unit = { },
 ) {
-    Scaffold (
+    Scaffold(
         topBar = {
             CstTopAppBar(
-                judul = "Daftar Mata Kuliah",
+                judul = " ",
                 showBackButton = true,
                 onBack = onBack,
                 modifier = modifier
@@ -64,24 +68,58 @@ fun HomeMataKuliahView(
             FloatingActionButton(
                 onClick = onAddMK,
                 shape = MaterialTheme.shapes.medium,
+                containerColor = Color(0xFF42A5F5),
                 modifier = Modifier.padding(16.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Tambah Mata Kuliah",
+                    tint = Color.White
                 )
-
             }
         }
-    )  { innerPadding ->
+    ) { innerPadding ->
         val homeUiState by viewModel.homeUiState.collectAsState()
 
-        BodyHomeMKView(
-            homeUiState = homeUiState,
-            onClick = {
-                onDetailClick(it)
-            },
-            modifier = Modifier.padding((innerPadding))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            // Bagian Header
+            HeaderSection()
+
+            // Bagian Body
+            BodyHomeMKView(
+                homeUiState = homeUiState,
+                onClick = { onDetailClick(it) },
+                modifier = Modifier.weight(1f) // Membagi ruang dengan proporsi yang benar
+            )
+        }
+    }
+}
+
+@Composable
+fun HeaderSection() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Daftar Mata Kuliah",
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF1976D2),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Pilihan Mata Kuliah Prodi Teknologi Informasi",
+            fontSize = 16.sp,
+            color = Color.Black,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -103,7 +141,7 @@ fun BodyHomeMKView(
                 modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ){
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = Color(0xFF42A5F5))
             }
         }
         homeUiState.isError -> {
@@ -126,6 +164,7 @@ fun BodyHomeMKView(
                     text = "Tidak ada data Mata Kuliah.",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1976D2),
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -172,25 +211,30 @@ fun CardMK(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { }
 ) {
+
     Card(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
+                Icon(imageVector = Icons.Filled.Person, contentDescription = "",
+                    tint = Color(0xFF1976D2)
+                )
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.nama,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    color = Color(0xFF1976D2)
                 )
             }
 
@@ -198,12 +242,15 @@ fun CardMK(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
+                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "",
+                    tint = Color(0xFF1976D2)
+                )
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.kode,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    color = Color(0xFF1976D2)
                 )
             }
 
@@ -212,10 +259,11 @@ fun CardMK(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(8.dp))
                 Text(
                     text = mk.sks,
                     fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1976D2)
                 )
             }
         }
